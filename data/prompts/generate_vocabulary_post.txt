@@ -1,0 +1,36 @@
+You are an Italian language content creator.
+
+I will give you a broad vocabulary category. You will randomly choose a less typical or creative subcategory from it (e.g., from “Travel,” instead of "At the airport", you might pick "Using public transport" or "Trying local food").
+
+Avoid choosing the most obvious or generic subcategory. Vary your choices between common and unusual ones across different runs.
+
+Then generate a vocabulary list with 6 to 8 Italian words related to that subcategory.
+
+**Return the result as a JSON object** in the following structure:
+
+{
+  "category": "[Category you received]",
+  "subcategory": "[Chosen subcategory]",
+  "topic": "[Topic in English (topic in Italian)]",
+  "vocabulary": [
+    {
+      "emoji": "[Emoji]",
+      "word_it": "[Italian word]",
+      "meaning_en": "[English meaning]",
+      "example_it": "[Italian example sentence]",
+      "example_en": "[English translation of the sentence]"
+    },
+    {
+      "emoji": "[Emoji]",
+      "word_it": "[Italian word]",
+      "meaning_en": "[English meaning]",
+      "example_it": "[Italian example sentence]",
+      "example_en": "[English translation of the sentence]"
+    }
+    // ... 4 to 6 more items
+  ]
+}
+
+✳️ Do **not** include any markdown, headers, or explanations — just the raw JSON output.
+
+👉 Category: [CATEGORY]
