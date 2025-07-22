@@ -1,0 +1,12 @@
+List over 100 Italian vocabulary categories suitable for learners at intermediate to advanced levels. Cover a wide range of topics, including daily life, travel, work, culture, emotions, abstract ideas, slang, academic fields, and specialized domains (e.g., medicine, law, environment).
+
+Return the result in pure JSON format only, structured like this:
+
+[
+  { "category": "Food & Cooking" },
+  { "category": "Medical Terms" },
+  { "category": "Emotions & Feelings" },
+  { "category": "Legal & Bureaucratic Vocabulary" },
+  { "category": "Idiomatic Expressions" }
+]
+Do not include any explanations, examples, or non-JSON text — only the raw JSON array of category names.
