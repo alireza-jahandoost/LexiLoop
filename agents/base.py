@@ -1,16 +1,16 @@
-# agents/generators/base.py
+# agents/base.py
 
 from abc import ABC, abstractmethod
 from pathlib import Path
 from pathlib import Path
 from abc import ABC, abstractmethod
 
-class BasePostGenerator(ABC):
+class BaseAgent(ABC):
     def __init__(self, post_type: str, prompt_path: str):
         self.post_type = post_type
 
         # Always resolve prompt path from project root
-        project_root = Path(__file__).resolve().parent.parent.parent  # goes from /agents/generators/base.py to project root
+        project_root = Path(__file__).resolve().parent.parent  # goes from /agents/generators/base.py to project root
         self.prompt_path = (project_root / prompt_path).resolve()
 
     def log(self, message: str):

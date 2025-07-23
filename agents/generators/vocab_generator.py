@@ -1,10 +1,10 @@
 import json
 from langchain_utils.model_config import get_llm_model
 from langchain.schema import HumanMessage
-from agents.generators.base import BasePostGenerator
+from agents.base import BaseAgent
 
 
-class VocabularyPostGenerator(BasePostGenerator):
+class VocabularyPostGenerator(BaseAgent):
     def __init__(self, prompt_path="data/prompts/generate_vocabulary_post.txt"):
         super().__init__(post_type="vocab_json", prompt_path=prompt_path)
         self.llm = get_llm_model(temperature=1)
