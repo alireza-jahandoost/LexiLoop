@@ -6,7 +6,7 @@ from agents.base import BaseAgent
 
 class VocabularyPostGenerator(BaseAgent):
     def __init__(self, prompt_path="data/prompts/generate_vocabulary_post.txt"):
-        super().__init__(post_type="vocab_json", prompt_path=prompt_path)
+        super().__init__(post_type="vocab", prompt_path=prompt_path)
         self.llm = get_llm_model(temperature=1)
 
     def run(self, category: str) -> dict:

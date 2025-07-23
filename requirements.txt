@@ -3,3 +3,4 @@ openai
 python-dotenv
 langchain_openai
 pymongo
+python-telegram-bot==20.7

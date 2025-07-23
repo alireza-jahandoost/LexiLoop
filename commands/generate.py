@@ -1,0 +1,76 @@
+import sys
+from agents.generators.vocab_generator import VocabularyPostGenerator
+from agents.review.post_judge import PostJudgeAgent
+from helper_functions.category_loader import load_categories
+from helper_functions.logger import log_dict_to_file
+from helper_functions.topic_selector import TopicSelector
+from storage.vocab_history import VocabHistory
+from storage.mongodb_handler import MongoDBHandler
+
+
+def generate_and_store_post(post_type: str, selector: TopicSelector, history: VocabHistory) -> bool:
+    try:
+        topic = selector.get_unused_topic()
+    except ValueError:
+        print("⚠️ No unused topics available.")
+        return False
+
+    print(f"\n🔍 Selected topic: {topic}")
+
+    if post_type == "vocab":
+        generator = VocabularyPostGenerator()
+    else:
+        print(f"❌ Unsupported post type: {post_type}")
+        return False
+
+    post = generator.run(topic)
+    judge = PostJudgeAgent()
+    judgment = judge.judge(post)
+
+    if judgment["verdict"] == "accept":
+        history.add_category(topic)
+
+        try:
+            db = MongoDBHandler(collection_name=f"{post_type}_posts")
+            db.insert_post(post)
+            print("✅ Post accepted and saved to MongoDB.")
+        except Exception as e:
+            print(f"⚠️ Failed to store post in MongoDB: {e}")
+            return False
+
+        print("#" * 20)
+        return True
+    else:
+        print("❌ Post rejected:")
+        print(f"Reason: {judgment['reason']}")
+        log_dict_to_file(
+            "logs/rejected_posts.log",
+            {"topic": topic},
+            post,
+            judgment
+        )
+        print("#" * 100)
+        return False
+
+
+def run_generate(args):
+    post_type = args.type.lower()
+    count = args.count
+
+    print(f"📘 LexiLoop: Generating {count} {post_type} post(s)...")
+
+    if post_type == "vocab":
+        categories = load_categories("data/categories/vocabulary_categories.json")
+    else:
+        print(f"❌ Unknown post type: {post_type}")
+        sys.exit(1)
+
+    history = VocabHistory()
+    selector = TopicSelector(categories, history)
+
+    success_count = 0
+    for _ in range(count):
+        if generate_and_store_post(post_type, selector, history):
+            success_count += 1
+
+    print(f"\n✅ Done: {success_count}/{count} post(s) successfully created and stored.")
