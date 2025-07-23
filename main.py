@@ -1,11 +1,12 @@
 import sys
-
 from agents.generators.vocab_generator import VocabularyPostGenerator
 from agents.review.post_judge import PostJudgeAgent
 from helper_functions.category_loader import load_categories
 from helper_functions.logger import log_dict_to_file
 from helper_functions.topic_selector import TopicSelector
 from storage.vocab_history import VocabHistory
+
+from storage.mongodb_handler import MongoDBHandler
 
 
 def main():
@@ -37,9 +38,17 @@ def main():
     if judgment["verdict"] == "accept":
         # Store topic to history
         history.add_category(topic)
-
         print("\n✅ Post accepted:\n")
-        print(post["formatted_view"])
+
+        # ✅ Save post in MongoDB
+        try:
+            db = MongoDBHandler(collection_name="vocab_posts")
+            db.insert_post(post)
+            print("📝 Post saved to MongoDB Atlas.")
+        except Exception as e:
+            print(f"⚠️ Failed to store post in MongoDB: {e}")
+
+
     else:
         print("\n❌ Post rejected:")
         print(f"Reason: {judgment['reason']}")

@@ -9,7 +9,7 @@ venv/
 .env
 
 # Data files
-scheduled_posts.json
+data/histories/*.json
 
 # Docker
 *.log
