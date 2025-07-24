@@ -1,13 +1,31 @@
 import sys
 from agents.generators.vocab_generator import VocabularyPostGenerator
 from agents.generators.grammar_generator import GrammarPostGenerator
-from agents.generators.false_friend_generator import FalseFriendPostGenerator  # ✅ NEW
+from agents.generators.false_friend_generator import FalseFriendPostGenerator
 from agents.review.post_judge import PostJudgeAgent
 from helper_functions.category_loader import load_categories
 from helper_functions.logger import log_dict_to_file
 from helper_functions.topic_selector import TopicSelector
 from storage.history import History
 from storage.mongodb_handler import MongoDBHandler
+
+SUPPORTED_TYPES = {
+    "vocab": {
+        "generator": VocabularyPostGenerator,
+        "categories_path": "data/categories/vocabulary_categories.json",
+        "history_path": "data/histories/vocab_history.json"
+    },
+    "grammar": {
+        "generator": GrammarPostGenerator,
+        "categories_path": "data/categories/grammar_categories.json",
+        "history_path": "data/histories/grammar_history.json"
+    },
+    "false_friend": {
+        "generator": FalseFriendPostGenerator,
+        "categories_path": "data/categories/false_friend_categories.json",
+        "history_path": "data/histories/false_friend_history.json"
+    }
+}
 
 
 def generate_and_store_post(post_type: str, selector: TopicSelector, history: History) -> bool:
@@ -19,15 +37,8 @@ def generate_and_store_post(post_type: str, selector: TopicSelector, history: Hi
 
     print(f"\n🔍 Selected topic: {topic}")
 
-    if post_type == "vocab":
-        generator = VocabularyPostGenerator()
-    elif post_type == "grammar":
-        generator = GrammarPostGenerator()
-    elif post_type == "false_friend":
-        generator = FalseFriendPostGenerator()
-    else:
-        print(f"❌ Unsupported post type: {post_type}")
-        return False
+    generator_class = SUPPORTED_TYPES[post_type]["generator"]
+    generator = generator_class()
 
     post = generator.run(topic)
     judge = PostJudgeAgent()
@@ -63,23 +74,15 @@ def run_generate(args):
     post_type = args.type.lower()
     count = args.count
 
-    print(f"📘 LexiLoop: Generating {count} {post_type} post(s)...")
-
-    if post_type == "vocab":
-        categories_path = "data/categories/vocabulary_categories.json"
-        history_path = "data/histories/vocab_history.json"
-    elif post_type == "grammar":
-        categories_path = "data/categories/grammar_categories.json"
-        history_path = "data/histories/grammar_history.json"
-    elif post_type == "false_friend":
-        categories_path = "data/categories/false_friend_categories.json"
-        history_path = "data/histories/false_friend_history.json"
-    else:
+    if post_type not in SUPPORTED_TYPES:
         print(f"❌ Unknown post type: {post_type}")
         sys.exit(1)
 
-    categories = load_categories(categories_path)
-    history = History(history_path)
+    print(f"📘 LexiLoop: Generating {count} {post_type} post(s)...")
+
+    config = SUPPORTED_TYPES[post_type]
+    categories = load_categories(config["categories_path"])
+    history = History(config["history_path"])
     selector = TopicSelector(categories, history)
 
     success_count = 0
