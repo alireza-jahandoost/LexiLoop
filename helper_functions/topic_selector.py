@@ -1,10 +1,11 @@
 # helper_functions/topic_selector.py
 
 import random
-from storage.vocab_history import VocabHistory
+
+from storage.history import History
 
 class TopicSelector:
-    def __init__(self, all_categories: list[str], history: VocabHistory):
+    def __init__(self, all_categories: list[str], history: History):
         self.all_categories = all_categories
         self.history = history
 
