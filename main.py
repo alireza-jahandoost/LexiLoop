@@ -2,7 +2,8 @@ import argparse
 import asyncio
 from commands.generate import run_generate
 from commands.publish import run_publish
-from commands.maintain import run_maintain  # ✅ NEW
+from commands.maintain import run_maintain
+from commands.check import run_check
 
 def main():
     parser = argparse.ArgumentParser(description="LexiLoop CLI")
@@ -25,6 +26,10 @@ def main():
     maintain_parser.add_argument("--threshold", type=int, default=10, help="Minimum number of unpublished posts")
     maintain_parser.add_argument("--count", "-c", type=int, default=10, help="Number of posts to generate if below threshold")
     maintain_parser.set_defaults(func=run_maintain)
+
+    # check command (async)
+    check_parser = subparsers.add_parser("check", help="Check unpublished post buffers and notify admin")
+    check_parser.set_defaults(func=run_check)
 
     args = parser.parse_args()
 
