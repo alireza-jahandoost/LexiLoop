@@ -1,30 +1,25 @@
-import json
-from pathlib import Path
-
+from storage.mongodb_handler import MongoDBHandler
 
 class History:
-    def __init__(self, history_path: str, max_length: int = 60):
-        project_root = Path(__file__).resolve().parent.parent
-        self.history_path = (project_root / history_path).resolve()
+    def __init__(self, post_type: str, max_length: int = 60):
+        self.post_type = post_type
         self.max_length = max_length
-        self.history = []
-        self._load_history()
+        self.db = MongoDBHandler(collection_name="post_histories")
+        self.history = self._load_history()
 
-    def _load_history(self):
-        if self.history_path.exists():
-            try:
-                with open(self.history_path, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                    if isinstance(data, list):
-                        self.history = data[-self.max_length:]
-            except (json.JSONDecodeError, IOError):
-                print(f"⚠️ Warning: could not load history from {self.history_path}. Starting fresh.")
-                self.history = []
+    def _load_history(self) -> list:
+        doc = self.db.find_post({"type": self.post_type})
+        if doc and "history" in doc:
+            return doc["history"][-self.max_length:]
+        return []
 
     def _save_history(self):
-        self.history_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(self.history_path, "w", encoding="utf-8") as f:
-            json.dump(self.history[-self.max_length:], f, indent=2, ensure_ascii=False)
+        trimmed = self.history[-self.max_length:]
+        self.db.collection.update_one(
+            {"type": self.post_type},
+            {"$set": {"history": trimmed}},
+            upsert=True
+        )
 
     def add_category(self, category: str):
         if category in self.history:
