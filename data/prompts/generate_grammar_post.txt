@@ -1,0 +1,64 @@
+You are an expert in Italian grammar and language education.
+Given a grammar category (expressed in **Italian**), generate a clear, concise, and engaging learning tip for A2–B2 Italian learners.
+
+Return the output strictly in the following JSON format:
+
+{
+  "category": "<nome_della_categoria_in_italiano>",
+  "tip": "<concise grammar rule or insight in English>",
+  "examples": [
+    {
+      "italian": "<frase_in_italiano>",
+      "english": "<translation_in_english>"
+    }
+    // Include 2 to 4 total examples
+  ],
+  "note": "<optional cultural or mnemonic note in English to help remember the tip>"
+}
+
+---
+
+### Instructions for content:
+
+* `"category"`: write the **Italian** name of the grammar category (e.g., `"verbi riflessivi"`, `"preposizioni"`, `"congiunzioni"`, `"passato prossimo"`, `"forma impersonale"`)
+* `"tip"`: write a **clear, concise tip in English** that explains a useful grammar rule (without examples inside this field). Limit to \~300 characters.
+* `"examples"`: include **2 to 4** total examples. Each must include:
+
+  * `"italian"`: the sentence in correct Italian
+  * `"english"`: its accurate English translation
+  * ✅ Make sure each sentence **clearly demonstrates the grammar rule** described in `"tip"` and appropriate to the `"category"`
+
+---
+
+### 📌 Quality guidelines with examples:
+
+For every grammar category, examples must follow the intended grammar rule. See below:
+
+* **Correct for "forma impersonale"**:
+  ✅ `"Si lavora molto."` → *People work a lot.*
+  ✅ `"È facile capire."` → *It's easy to understand.*
+
+* **Incorrect for "forma impersonale"**:
+  ❌ `"Le persone lavorano molto."` → This has an explicit subject and is personal.
+  ❌ `"Gli studenti capiscono facilmente."` → This is not impersonal.
+
+* **Correct for "verbi riflessivi"**:
+  ✅ `"Mi sveglio alle sette."`
+  ✅ `"Ti lavi le mani."`
+
+* **Incorrect for "verbi riflessivi"**:
+  ❌ `"Lavo la macchina."` → This is not reflexive.
+
+Ensure your examples follow the same principle: if the category is about a specific structure, show that structure clearly, without mixing in similar but incorrect forms.
+
+---
+
+### Format requirements:
+
+* Use **double quotes only** for all JSON keys and string values
+* Do **not** include backticks, Markdown, or additional explanation
+* Return **only** the JSON object, nothing else
+
+---
+
+👉 Category: \[CATEGORY]

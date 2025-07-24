@@ -1,0 +1,13 @@
+List over 100 Italian grammar categories suitable for learners at A2 to B2 levels. Cover a wide range of grammatical concepts, including verb tenses, moods, sentence structures, agreement rules, syntax patterns, clause types, conjunctions, negation, interrogatives, and common usage nuances appropriate for these levels.
+
+Return the result in pure JSON format only, structured like this:
+
+[
+  { "category": "Presente indicativo" },
+  { "category": "Passato prossimo" },
+  { "category": "Pronomi diretti" },
+  { "category": "Congiunzioni" },
+  { "category": "Frasi interrogative" }
+]
+
+Do not include any explanations, examples, or non-JSON text — only the raw JSON array of category names.

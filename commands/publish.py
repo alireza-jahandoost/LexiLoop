@@ -19,8 +19,7 @@ else:
 def add_hashtags(message: str, post_type: str) -> str:
     tags = {
         "vocab": "#vocabulary #vocabolario #wordsoftheday #paroledelgiorno",
-        "grammar": "#grammar #english",
-        "idiom": "#idiom #english",
+        "grammar": "#grammar #grammatica",
     }
     return f"{message}\n\n{tags.get(post_type, '')}".strip()
 
@@ -29,8 +28,12 @@ async def run_publish(args):
         raise RuntimeError("Missing TELEGRAM_TOKEN or TELEGRAM_CHAT_ID for publishing.")
 
     post_type = args.type.lower()
-    db = MongoDBHandler(collection_name=f"{post_type}_posts")
 
+    if post_type not in ["vocab", "grammar"]:
+        logger.error(f"Unsupported post type: {post_type}")
+        return
+
+    db = MongoDBHandler(collection_name=f"{post_type}_posts")
     query = {
         "type": post_type,
         "published": {"$ne": True}

@@ -1,14 +1,15 @@
 import sys
 from agents.generators.vocab_generator import VocabularyPostGenerator
+from agents.generators.grammar_generator import GrammarPostGenerator
 from agents.review.post_judge import PostJudgeAgent
 from helper_functions.category_loader import load_categories
 from helper_functions.logger import log_dict_to_file
 from helper_functions.topic_selector import TopicSelector
-from storage.vocab_history import VocabHistory
+from storage.history import History
 from storage.mongodb_handler import MongoDBHandler
 
 
-def generate_and_store_post(post_type: str, selector: TopicSelector, history: VocabHistory) -> bool:
+def generate_and_store_post(post_type: str, selector: TopicSelector, history: History) -> bool:
     try:
         topic = selector.get_unused_topic()
     except ValueError:
@@ -19,6 +20,8 @@ def generate_and_store_post(post_type: str, selector: TopicSelector, history: Vo
 
     if post_type == "vocab":
         generator = VocabularyPostGenerator()
+    elif post_type == "grammar":
+        generator = GrammarPostGenerator()
     else:
         print(f"❌ Unsupported post type: {post_type}")
         return False
@@ -60,12 +63,17 @@ def run_generate(args):
     print(f"📘 LexiLoop: Generating {count} {post_type} post(s)...")
 
     if post_type == "vocab":
-        categories = load_categories("data/categories/vocabulary_categories.json")
+        categories_path = "data/categories/vocabulary_categories.json"
+        history_path = "data/histories/vocab_history.json"
+    elif post_type == "grammar":
+        categories_path = "data/categories/grammar_categories.json"
+        history_path = "data/histories/grammar_history.json"
     else:
         print(f"❌ Unknown post type: {post_type}")
         sys.exit(1)
 
-    history = VocabHistory()
+    categories = load_categories(categories_path)
+    history = History(history_path)
     selector = TopicSelector(categories, history)
 
     success_count = 0
