@@ -1,6 +1,7 @@
 import sys
 from agents.generators.vocab_generator import VocabularyPostGenerator
 from agents.generators.grammar_generator import GrammarPostGenerator
+from agents.generators.false_friend_generator import FalseFriendPostGenerator  # ✅ NEW
 from agents.review.post_judge import PostJudgeAgent
 from helper_functions.category_loader import load_categories
 from helper_functions.logger import log_dict_to_file
@@ -22,6 +23,8 @@ def generate_and_store_post(post_type: str, selector: TopicSelector, history: Hi
         generator = VocabularyPostGenerator()
     elif post_type == "grammar":
         generator = GrammarPostGenerator()
+    elif post_type == "false_friend":
+        generator = FalseFriendPostGenerator()
     else:
         print(f"❌ Unsupported post type: {post_type}")
         return False
@@ -68,6 +71,9 @@ def run_generate(args):
     elif post_type == "grammar":
         categories_path = "data/categories/grammar_categories.json"
         history_path = "data/histories/grammar_history.json"
+    elif post_type == "false_friend":
+        categories_path = "data/categories/false_friend_categories.json"
+        history_path = "data/histories/false_friend_history.json"
     else:
         print(f"❌ Unknown post type: {post_type}")
         sys.exit(1)

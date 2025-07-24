@@ -20,6 +20,7 @@ def add_hashtags(message: str, post_type: str) -> str:
     tags = {
         "vocab": "#vocabulary #vocabolario #wordsoftheday #paroledelgiorno",
         "grammar": "#grammar #grammatica",
+        "false_friend": "#falsefriend #falsoamico"
     }
     return f"{message}\n\n{tags.get(post_type, '')}".strip()
 
@@ -29,7 +30,7 @@ async def run_publish(args):
 
     post_type = args.type.lower()
 
-    if post_type not in ["vocab", "grammar"]:
+    if post_type not in ["vocab", "grammar", "false_friend"]:
         logger.error(f"Unsupported post type: {post_type}")
         return
 

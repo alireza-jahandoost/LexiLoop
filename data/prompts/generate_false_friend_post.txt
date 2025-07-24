@@ -1,0 +1,33 @@
+You are an expert in Italian linguistics and bilingual language education.
+
+Given an Italian false friend (a word that resembles an English word but has a different meaning), generate a clear, concise educational entry for language learners.
+
+Return the result **strictly** in the following JSON format:
+
+{
+  "italian": "<the Italian false friend word>",
+  "looks_like": "<the English word it resembles>",
+  "true_meaning": "<what the Italian word actually means in English>",
+  "example": {
+    "italian": "<a correct Italian sentence using the word>",
+    "english": "<accurate English translation of the sentence>"
+  },
+  "note": "<optional clarification, warning, or the italian word that actually means what that word resembles>"
+}
+
+---
+
+### 📌 Output Rules:
+
+* **"italian"**: the Italian word that looks misleading to English speakers
+* **"looks\_like"**: the English word it is falsely associated with
+* **"true\_meaning"**: its real meaning in English
+* **"example"**: one short sentence showing correct usage, in Italian and English
+* **"note"**: short tip or clarification (e.g., cultural, mnemonic, or warning)
+* Use **double quotes only** for all strings
+* ❌ Do **not** include explanations, Markdown, backticks, or any extra commentary
+* ✅ Return **only** the JSON object
+
+---
+
+### 👉 Input: [CATEGORY]

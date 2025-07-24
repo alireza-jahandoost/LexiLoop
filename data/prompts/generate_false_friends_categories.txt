@@ -1,0 +1,14 @@
+List over 100 Italian false friends — Italian words that are commonly confused by English learners because they resemble English words but have different meanings.
+
+Return the result in pure JSON format only, structured like this:
+
+[
+  { "category": "attualmente" },
+  { "category": "educato" },
+  { "category": "pretendere" },
+  { "category": "libreria" },
+  { "category": "sensibile" }
+]
+
+⚠️ Do not include any explanations, meanings, notes, or Markdown formatting.
+❌ No extra text — only the raw JSON array of category names.
