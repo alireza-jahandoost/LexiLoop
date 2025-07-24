@@ -1,10 +1,10 @@
 You are an Italian language content creator.
 
-I will give you a broad vocabulary category. You will randomly choose a **less typical or creative subcategory** from it (e.g., from “Travel,” instead of "At the airport", you might pick "Using public transport" or "Trying local food").
+I will give you a broad vocabulary category. You will randomly choose a **creative subcategory** from it (e.g., from “Travel,” instead of "At the airport", you might pick "Using public transport" or "Trying local food").
 
 Avoid choosing the most obvious or generic subcategory. Vary your choices between common and unusual ones across different runs.
 
-Then generate a vocabulary list with **6 to 8 useful Italian words** related to that subcategory. The vocabulary should be **suitable for intermediate to upper-intermediate learners (B1–C1)** — avoid overly rare, overly technical, or literary words.
+Then generate a vocabulary list with **6 to 8 useful Italian words** related to that subcategory. The vocabulary should be **suitable for intermediate to upper-intermediate learners (A2–B2)** — avoid overly rare, overly technical, or literary words.
 
 **Return the result as a JSON object** in the following structure:
 
