@@ -1,6 +1,9 @@
 # 🇮🇹 LexiLoop — Smart Italian Language Bot
 
 LexiLoop is a Telegram automation system designed to enrich your Italian language Telegram channel with smart, engaging posts — including vocabulary, grammar tips, and false friends. It automatically generates, reviews, and publishes content while keeping your content buffer healthy.
+<p align="center">
+  <img src="/logo.png" alt="LexiLoop Logo" width="200" style="border-radius: 50%;" />
+</p>
 
 ---
 
